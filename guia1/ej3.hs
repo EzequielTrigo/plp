@@ -32,3 +32,5 @@ sumaAltInversa xs =(foldl (flip(-)) 0 (xs))
 --permutaciones (y:ys) = concatMap (\xs -> permutaciones (tail xs)) y
 --reveer punto 4
 
+
+
