@@ -1,6 +1,6 @@
-foldNat :: Num (a)=>(a-> b -> b) -> b -> [a] -> b
-foldNat _ z [] = z
-foldNat f z (x:xs) = f x (foldNat f z xs)
+foldNat :: (Eq a, Num a) => (a-> a) -> a -> a -> a
+foldNat _ z 0 = z
+foldNat f z n = f (foldNat f z (n-1))
 
-potencia :: [Int] -> Int -> [Int]
-potencia xs y = foldNat (\x rec-> x^y : rec) [] xs 
+potencia :: Int -> Int -> Int
+potencia x y = foldNat (\z -> z * x) 1 y 
