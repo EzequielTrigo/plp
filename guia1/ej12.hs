@@ -20,3 +20,5 @@ altura tree = foldAB (\x v y -> if x > y then x + 1 else y + 1) 0 tree
 
 cantNodos :: AB a -> Int
 cantNodos tree = foldAB (\x v y -> x + y + 1) 0 tree
+
+--esABB todo
