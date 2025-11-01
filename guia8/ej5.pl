@@ -7,9 +7,9 @@ reverse2([Y|YS],R):- reverse(YS,YSR), append(YSR,[Y],R).
 prefijo([],_).
 prefijo([X|XS],[X|YS]):-prefijo(XS,YS).
 
-
 sufijo(XS, L):-append(A,XS,L).
 
-
-
 sublista(S, L) :- sufijo(Sufijos,L), prefijo(S,Sufijos).
+
+pertenece(X,[X|_]).
+pertenece(X,[_|YS]):-pertenece(X,YS).
