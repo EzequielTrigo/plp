@@ -1,7 +1,7 @@
 interseccion([], _, []). 
 interseccion([X|XS], YS, L)    :-     member(X,XS)                    , interseccion(XS,YS,L).
 interseccion([X|XS], YS, L)    :- not(member(X,XS)), not(member(X,YS)), interseccion(XS,YS,L).
-interseccion([X|XS], YS, [X|L]):- not(member(X,XS)),     member(X,YS) ,    interseccion(XS,YS,L).
+interseccion([X|XS], YS, [X|L]):- not(member(X,XS)),     member(X,YS) , interseccion(XS,YS,L).
 
 %partir(N, L, L1, L2)
 partir(0, L, [], L).
