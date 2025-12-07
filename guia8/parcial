@@ -1,0 +1,89 @@
+p(L,X):- length(L,X).
+
+esRotacion(XS,[Y|YS]):-append(XS2,RES,XS), append(RES,XS1,YS), append(XS1,[Y],XS2).
+
+collatz(X,X).
+collatz(X,Y):- X=\=1, 0 is X mod 2, Divx is X//2, collatz(Divx,Y).
+collatz(X,Y):- X=\=1, 1 is X mod 2, Multx is (3*X)+1, collatz(Multx, Y).
+
+collatzMayor(X,Y):- collatz(X,Y), not((collatz(X,Z), Z > Y)).
+
+% Verifica si un elemento pertenece a una lista
+member(X, [X|_]).
+member(X, [_|XS]) :- member(X, XS).
+
+% Verifica si el segundo argumento es sublista del primero
+esSublista(_, []).
+esSublista(L, [X|XS]) :- member(X, L), esSublista(L, XS).
+
+p(a).
+q(a).
+q(b).
+
+sc(XS,YS):- subseqCrec(XS,YS), esCreciente(YS).
+
+esCreciente([]).
+esCreciente([_]).
+esCreciente([X,Y|XS]):- X < Y, esCreciente([Y|XS]).
+
+subseqCrec([],[]).
+subseqCrec([X|XS],[X|YS]):- subseqCrec(XS,YS).
+subseqCrec([_|XS],YS):- subseqCrec(XS,YS).
+
+noHayMenorQue(_,[]).
+noHayMenorQue(X,[Y|YS]):- X < Y, noHayMenorQue(X,YS).
+
+noEsta(_,[]).
+noEsta(X,[Y|YS]):- X=\=Y, noEsta(X,YS).
+
+subseqCrecMasLarga(XS,YS):- subseqCrec(XS,YS), not((subseqCrec(XS,CONT),length(CONT,CL),length(YS,YSL),CL>YSL)).
+
+%fibonacci(1).
+%fibonacci(2).
+%fibonacci(X):-nonvar(X), between(1,X,N), N2 is X-N, fibonacci(N), fibonacci(N2).
+%fibonacci(X):-var(X),desde(1,X), between(1,X,N), N2 is X-N, fibonacci(N), fibonacci(N2).
+
+desde(N,N).
+desde(X,S):- XM1 is X+1, desde(XM1,S).
+
+fibonacci(X):- esFibonacci(X,[1,1]).
+
+esFibonacci(X,[Y,Z|_]):-X is Y+Z.
+esFibonacci(X,[Y,Z|XS]):- YZ is Y+Z, esFibonacci(X,[YZ,Y,Z|XS]) .
+
+generarCapicua(L):- desde(1,Tamaño), listaDeTamaño(L,Tamaño),esCapicua(L).
+
+listaDeTamaño([],0).
+listaDeTamaño([X|XS],Tamaño):-Tamaño>0, between(1,9,X), Tamaño1 is Tamaño-1,listaDeTamaño(XS,Tamaño1).
+
+esCapicua([]).
+esCapicua([_]).
+esCapicua(XS) :- append([X],RES, XS2), append(XS2,[X],XS), esCapicua(RES). 
+
+tokenizar(_,[],[]).
+tokenizar(D,F,[Elegido|TS]):- append(D1,_,D), append(_,[Elegido],D1), append(Elegido,RES,F), tokenizar(D,RES,TS).
+
+mayorCantPalabras(D,F,T):- tokenizar(D,F,T), not(existeTokenizacionConMasPalabras(D,F,T)).
+
+existeTokenizacionConMasPalabras(D,F,TCOMP):- tokenizar(D,F,T), length(T,TLEN), length(TCOMP,TCOMPLEN), TLEN>TCOMPLEN.
+
+sublistaMasLargaDePrimos(L,P) :- sublistaDePrimosDeLong(L,P,Long), not((sublistaDePrimosDeLong(L,_,Long2), Long2 > Long)).
+
+sublistaDePrimosDeLong(L,P,Long) :- sublista(L,P), soloPrimos(P), length(P,Long).
+
+sublista(_,[]).
+sublista(L,S) :- append(P,_,L), append(_,S,P), S \= [].
+
+soloPrimos(L) :- not((member(X,L), not(esPrimo(X)))).
+
+% esPrimo(+P)
+esPrimo(P) :- P \= 1, P2 is P-1, not((between(2,P2,D), mod(P,D) =:= 0)).
+
+
+generarArbolDeTam(bin(nil,_,nil),1).
+generarArbolDeTam(bin(I,_,D),T):- T >1, TM1 is T-1, between(1,TM1,TMI),TMD is T - TMI, generarArbolDeTam(I,TMI), generarArbolDeTam(D,TMD).
+
+listaDeArboles(X):- desde(0,N), genListaDeArboles(X,N).
+
+genListaDeArboles([],0).
+genListaDeArboles([X|XS],T):-T>0, between(1,T,TAM), RES is T-TAM, generarArbolDeTam(X,TAM),genListaDeArboles(XS,RES).
